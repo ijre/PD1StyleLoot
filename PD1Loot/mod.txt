@@ -1,0 +1,25 @@
+{
+  "name": "PD1-Style Loot Bags",
+  "description": "No more bag leapfrog",
+  "author": "ijre",
+  "keybinds":
+  [
+    {
+      "keybind_id": "PD1Loot_Toggle",
+      "name": "Toggle PD1-Style Loot",
+      "description": "Incase of softlocks caused by instant securing of bags, use this to disable the mod temporarily",
+      "script_path": "toggle.lua",
+      "run_in_game": true
+    }
+  ],
+  "updates":
+  [
+    {
+      "identifier": "PD1Loot",
+      "host":
+      {
+        "meta": "https://github.com/ijre/PD1StyleLoot/releases/latest/download/meta.json"
+      }
+    }
+  ]
+}

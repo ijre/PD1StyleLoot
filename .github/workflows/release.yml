@@ -1,0 +1,40 @@
+name: Upload Mod For Release
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  uploadMod:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Archive Mod
+      run: |
+         .\.github\7za.exe -tzip a ".\PD1Loot.zip" ".\PD1Loot"
+      shell: powershell
+    - name: Upload Archive
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./PD1Loot.zip
+        asset_name: PD1Loot.zip
+        asset_content_type: application/zip
+
+  uploadHashFile:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Create Meta.json
+      run: |
+         $(cat .\.github\meta.json).Replace("%HASH%", $(./.github/hash.exe "./PD1Loot").Substring(17)) > ./meta.json
+    - name: Upload Meta.json
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./meta.json
+        asset_name: meta.json
+        asset_content_type: application/json
